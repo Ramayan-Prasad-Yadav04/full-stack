@@ -1,2 +1,2 @@
 # full-stack
-A full stack app we will be building live
+A full stack app we will be building live...
