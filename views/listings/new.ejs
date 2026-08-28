@@ -1,0 +1,111 @@
+<% layout("./boilerplate/boilerplate.ejs") %>
+
+<div class="row mt-4">
+  <div class="col-8 offset-2">
+    <h2 class="mb-4">Create New Listing</h2>
+
+    <form 
+      action="/listings" 
+      method="POST" 
+      class="needs-validation" 
+      novalidate 
+      id="listingForm"
+    >
+      
+      <!-- Title -->
+      <div class="form-group mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input
+          type="text"
+          id="title"
+          name="listing[title]"
+          placeholder="e.g., Cozy Beachfront Villa"
+          class="form-control"
+          required
+        />
+        <div id="titleError" class="error text-danger small mt-1" style="display: none;"></div>
+        <div id="titleSuccess" class="success text-success small mt-1" style="display: none;"></div>
+      </div>
+
+      <!-- Description -->
+      <div class="form-group mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          id="description"
+          name="listing[description]"
+          placeholder="Write a brief overview of the place..."
+          rows="4"
+          class="form-control"
+          required
+        ></textarea>
+        <div id="descriptionError" class="error text-danger small mt-1" style="display: none;"></div>
+        <div id="descriptionSuccess" class="success text-success small mt-1" style="display: none;"></div>
+      </div>
+
+      <!-- Image URL -->
+      <div class="form-group mb-3">
+        <label for="image" class="form-label">Image URL</label>
+        <input
+          type="url"
+          id="image"
+          name="listing[image]"
+          placeholder="https://images.unsplash.com/..."
+          class="form-control"
+        />
+        <div id="imageSuccess" class="success text-success small mt-1" style="display: none;"></div>
+        <small class="form-text text-muted">Leave blank or provide a valid direct image URL.</small>
+      </div>
+
+      <!-- Row for Price & Country -->
+      <div class="row">
+        <div class="form-group mb-3 col-md-4">
+          <label for="price" class="form-label">Price (&#8377;)</label>
+          <input
+            type="number"
+            id="price"
+            name="listing[price]"
+            placeholder="1200"
+            min="0"
+            step="1"
+            class="form-control"
+            required
+          />
+          <div id="priceError" class="error text-danger small mt-1" style="display: none;"></div>
+          <div id="priceSuccess" class="success text-success small mt-1" style="display: none;"></div>
+        </div>
+
+        <div class="form-group mb-3 col-md-8">
+          <label for="country" class="form-label">Country</label>
+          <input
+            type="text"
+            id="country"
+            name="listing[country]"
+            placeholder="e.g., India"
+            class="form-control"
+            required
+          />
+          <div id="countryError" class="error text-danger small mt-1" style="display: none;"></div>
+          <div id="countrySuccess" class="success text-success small mt-1" style="display: none;"></div>
+        </div>
+      </div>
+
+      <!-- Location -->
+      <div class="form-group mb-4">
+        <label for="location" class="form-label">Location / City</label>
+        <input
+          type="text"
+          id="location"
+          name="listing[location]"
+          placeholder="e.g., Candolim, Goa"
+          class="form-control"
+          required
+        />
+        <div id="locationError" class="error text-danger small mt-1" style="display: none;"></div>
+        <div id="locationSuccess" class="success text-success small mt-1" style="display: none;"></div>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-dark w-100">Add Listing</button>
+    </form>
+  </div>
+</div>

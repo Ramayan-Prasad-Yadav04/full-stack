@@ -1,0 +1,89 @@
+<% layout("./boilerplate/boilerplate.ejs") %>
+
+<style>
+  .show-container {
+    max-width: 750px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .show-img {
+    width: 100%;
+    max-height: 420px;
+    object-fit: cover;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .show-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .show-price {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  /* Spacing added here */
+  .btn-group {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem; /* Gap between Edit and Delete buttons */
+    margin-top: 1.5rem; /* Gap above the button container */
+    padding-top: 0.5rem;
+  }
+
+  .btn {
+    padding: 0.6rem 1.4rem;
+    border-radius: 0.5rem;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-edit {
+    background-color: #ff385c;
+    color: white;
+  }
+
+  .btn-delete {
+    background-color: #222;
+    color: white;
+  }
+</style>
+
+<div class="show-container">
+  <h2><%= listing.title %></h2>
+
+  <img
+    src="<%= listing.image?.url || listing.image || '/images/default.jpg' %>"
+    alt="<%= listing.title %>"
+    class="show-img"
+  />
+
+  <div class="show-details">
+    <p class="show-desc"><%= listing.description %></p>
+    <p class="show-price">
+      &#8377; <%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A"
+      %> / night
+    </p>
+    <p class="text-muted"><%= listing.location %>, <%= listing.country %></p>
+  </div>
+
+  <!-- Buttons with gap -->
+  <div class="btn-group">
+    <a href="/listings/<%= listing._id %>/edit" class="btn btn-edit"
+      >Edit Listing</a
+    >
+    <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
+      <button type="submit" class="btn btn-delete">Delete</button>
+    </form>
+  </div>
+</div>

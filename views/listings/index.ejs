@@ -1,0 +1,20 @@
+<% layout("./boilerplate/boilerplate.ejs") %>
+
+
+<div class="cards-container">
+  <% for (let listing of allListings) { %>
+    <a href="/listings/<%= listing._id %>" class="listing-card">
+      <img 
+        src="<%= listing.image?.url || listing.image || '/images/default.jpg' %>" 
+        alt="<%= listing.title %>"
+        class="listing-img"
+      >
+      <div class="card-info">
+        <p class="card-title"><%= listing.title %></p>
+        <% if (listing.price) { %>
+          <p class="card-price">&#8377; <%= listing.price.toLocaleString("en-IN") %> / night</p>
+        <% } %>
+      </div>
+    </a>
+  <% } %>
+</div>
