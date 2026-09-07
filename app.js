@@ -1,6 +1,6 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
-require("dotenv").config();
 const ejsMate = require("ejs-mate");
 const mongoose = require("mongoose");
 const path = require("path");
@@ -9,8 +9,10 @@ const methodOverride = require("method-override");
 const Listing = require("./models/listings");
 const ExpressError = require("./utiles/ExpressError");
 const wrapAsync = require("./utiles/wrapAsync");
+const { listingSchema } = require("./schema");
 
 const PORT = process.env.PORT || 3000;
+const DB_URL = process.env.MONGO_URL || "mongodb://127.0.0.1:27017/wanderlust";
 
 // EJS & View Engine Setup
 app.engine("ejs", ejsMate);
@@ -23,9 +25,20 @@ app.use(express.json());
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 
+// Joi Schema Validation Middleware
+const validateListing = (req, res, next) => {
+  const { error } = listingSchema.validate(req.body);
+  if (error) {
+    const errMsg = error.details.map((el) => el.message).join(", ");
+    throw new ExpressError(400, errMsg);
+  } else {
+    next();
+  }
+};
+
 // Database Connection
 async function main() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/wanderlust");
+  await mongoose.connect(DB_URL);
 }
 
 main()
@@ -36,7 +49,9 @@ main()
     console.log("Database connection error:", err);
   });
 
-// Routes
+// ==========================================
+// ROUTES
+// ==========================================
 
 // Root Route
 app.get("/", (req, res) => {
@@ -52,7 +67,7 @@ app.get(
   })
 );
 
-// New Form Route
+// New Form Route (Must precede /listings/:id)
 app.get("/listings/new", (req, res) => {
   res.render("listings/new.ejs");
 });
@@ -60,10 +75,8 @@ app.get("/listings/new", (req, res) => {
 // Create Route
 app.post(
   "/listings",
+  validateListing,
   wrapAsync(async (req, res) => {
-    if (!req.body.listing) {
-      throw new ExpressError(400, "Send valid data for listing");
-    }
     const newListing = new Listing(req.body.listing);
     await newListing.save();
     res.redirect("/listings");
@@ -99,6 +112,7 @@ app.get(
 // Update Route
 app.put(
   "/listings/:id",
+  validateListing,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     const updatedListing = await Listing.findByIdAndUpdate(
@@ -106,6 +120,7 @@ app.put(
       { ...req.body.listing },
       { runValidators: true, new: true }
     );
+
     if (!updatedListing) {
       throw new ExpressError(404, "Listing not found");
     }
@@ -126,30 +141,58 @@ app.delete(
   })
 );
 
-// 404 Catch-All Route
-app.all("{*splat}", (req, res, next) => {
+// 404 Catch-All Middleware (Express 5 safe)
+app.use((req, res, next) => {
   next(new ExpressError(404, "Page Not Found"));
 });
 
-// Centralized Error-Handling Middleware
+// Centralized Error-Handling Middleware (Multi-theming & categorised metadata)
 app.use((err, req, res, next) => {
   let { statusCode = 500, message = "Something went wrong" } = err;
+  let title = "Internal Server Error";
+  let type = "danger"; // 'warning', 'info', 'danger'
 
-  // Handle invalid Mongoose ObjectId format (e.g. /listings/invalid-id)
+  // 1. Invalid MongoDB ObjectId format
   if (err.name === "CastError") {
     statusCode = 400;
-    message = "Resource not found: Invalid ID format";
+    title = "Invalid ID Format";
+    message = `We couldn't locate any resource with the ID "${err.value}". Please verify the URL.`;
+    type = "warning";
   }
 
-  // Handle Mongoose schema validation failures
-  if (err.name === "ValidationError") {
+  // 2. Mongoose Schema Validation Error
+  else if (err.name === "ValidationError") {
     statusCode = 400;
+    title = "Validation Failed";
     message = Object.values(err.errors)
       .map((el) => el.message)
       .join(", ");
+    type = "warning";
   }
 
-  res.status(statusCode).send(message);
+  // 3. Joi Validation Error (ExpressError with 400)
+  else if (statusCode === 400) {
+    title = "Invalid Input Data";
+    type = "warning";
+  }
+
+  // 4. Resource / Route Not Found (404)
+  else if (statusCode === 404) {
+    title = "Page or Resource Not Found";
+    message =
+      message === "Something went wrong"
+        ? "The page or listing you are looking for does not exist or has been removed."
+        : message;
+    type = "info";
+  }
+
+  res.status(statusCode).render("error.ejs", {
+    statusCode,
+    title,
+    message,
+    type,
+  
+  });
 });
 
 // Start Server

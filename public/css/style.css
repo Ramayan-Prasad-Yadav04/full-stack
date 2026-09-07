@@ -406,3 +406,194 @@ footer {
     background-color: #222;
     color: white;
   }
+
+  /* =========================================
+   DYNAMIC ERROR BOX THEMES
+   ========================================= */
+.error-wrapper {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.error-card {
+  width: 100%;
+  max-width: 650px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.07);
+  padding: 36px 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Base accent strip */
+.error-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+}
+
+/* THEME 1: 404 NOT FOUND (Soft Blue / Cool Slate) */
+.theme-info {
+  border: 1px solid #dbeafe;
+}
+.theme-info::before {
+  background: #3b82f6;
+}
+.theme-info .error-badge {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+}
+.theme-info .error-label {
+  color: #2563eb;
+}
+.theme-info .error-body {
+  background-color: #f0f7ff;
+  border: 1px solid #bfdbfe;
+  border-left: 4px solid #3b82f6;
+}
+
+/* THEME 2: 400 BAD REQUEST / VALIDATION (Amber / Warm Coral) */
+.theme-warning {
+  border: 1px solid #fef3c7;
+}
+.theme-warning::before {
+  background: #f59e0b;
+}
+.theme-warning .error-badge {
+  background-color: #fffbeb;
+  color: #b45309;
+}
+.theme-warning .error-label {
+  color: #d97706;
+}
+.theme-warning .error-body {
+  background-color: #fffdf5;
+  border: 1px solid #fde68a;
+  border-left: 4px solid #f59e0b;
+}
+
+/* THEME 3: 500 SERVER FAILURE (Rose Red) */
+.theme-danger {
+  border: 1px solid #fee2e2;
+}
+.theme-danger::before {
+  background: #ef4444;
+}
+.theme-danger .error-badge {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+.theme-danger .error-label {
+  color: #ef4444;
+}
+.theme-danger .error-body {
+  background-color: #fff5f5;
+  border: 1px solid #fed7d7;
+  border-left: 4px solid #ef4444;
+}
+
+/* Internal card components */
+.error-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.error-badge {
+  font-weight: 800;
+  font-size: 1.35rem;
+  padding: 10px 18px;
+  border-radius: 12px;
+}
+
+.error-title-group h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #111827;
+  margin-top: 2px;
+}
+
+.error-label {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.error-divider {
+  border: 0;
+  border-top: 1px solid #f3f4f6;
+  margin: 20px 0;
+}
+
+.error-body {
+  border-radius: 8px;
+  padding: 16px 18px;
+  margin-bottom: 24px;
+}
+
+.error-text {
+  color: #374151;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  word-break: break-word;
+}
+
+/* Debug / Stack trace expandable accordion */
+.error-debug {
+  margin-bottom: 24px;
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 12px 16px;
+  border: 1px solid #e5e7eb;
+}
+
+.error-debug summary {
+  font-size: 13px;
+  font-weight: 600;
+  color: #4b5563;
+  cursor: pointer;
+  outline: none;
+}
+
+.error-stack {
+  margin-top: 12px;
+  padding: 12px;
+  background: #111827;
+  color: #e5e7eb;
+  border-radius: 6px;
+  font-size: 12px;
+  overflow-x: auto;
+  line-height: 1.4;
+}
+
+.error-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: #4b5563;
+  border: 1px solid #d1d5db;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.btn-outline:hover {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+  color: #111827;
+}

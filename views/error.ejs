@@ -1,0 +1,26 @@
+<% layout("./boilerplate/boilerplate.ejs") %>
+
+<div class="error-wrapper">
+  <div class="error-card theme-<%= type %>">
+    <div class="error-header">
+      <div class="error-badge">
+        <span class="status-num"><%= statusCode %></span>
+      </div>
+      <div class="error-title-group">
+        <span class="error-label">HTTP <%= statusCode %></span>
+        <h2><%= title %></h2>
+      </div>
+    </div>
+
+    <hr class="error-divider" />
+
+    <div class="error-body">
+      <p class="error-text"><%= message %></p>
+    </div>
+
+    <div class="error-actions">
+      <a href="/listings" class="btn btn-primary">Back to Listings</a>
+      <button onclick="window.history.back()" class="btn btn-outline">Go Back</button>
+    </div>
+  </div>
+</div>
