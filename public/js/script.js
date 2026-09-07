@@ -1,29 +1,29 @@
-const mapDiv = document.getElementById('map');
-if(mapDiv){
+const mapDiv = document.getElementById("map");
+if (mapDiv) {
   const coords = JSON.parse(mapDiv.dataset.coordinates);
-console.log(coords); // [lng, lat]
-let reversedCoords = coords.reverse();
-console.log(reversedCoords)
-let listingTitle = document.querySelector(".listing-title");
-console.log(listingTitle)
-var map = L.map('map').setView(reversedCoords, 13);
+  console.log(coords); // [lng, lat]
+  let reversedCoords = coords.reverse();
+  console.log(reversedCoords);
+  let listingTitle = document.querySelector(".listing-title");
+  console.log(listingTitle);
+  var map = L.map("map").setView(reversedCoords, 13);
 
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 19,
-  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-}).addTo(map);
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution:
+      '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  }).addTo(map);
 
-var marker = L.marker(reversedCoords).addTo(map);
+  var marker = L.marker(reversedCoords).addTo(map);
 
-var circle = L.circle(reversedCoords, {
-  color: 'red',
-  fillColor: '#f03',
-  fillOpacity: 0.5,
-  radius: 500
-}).addTo(map);
+  var circle = L.circle(reversedCoords, {
+    color: "red",
+    fillColor: "#f03",
+    fillOpacity: 0.5,
+    radius: 500,
+  }).addTo(map);
 
-
-marker.bindPopup(listingTitle.innerText).openPopup();
+  marker.bindPopup(listingTitle.innerText).openPopup();
 }
 
 const listingForm = document.getElementById("listingForm");
@@ -73,11 +73,11 @@ function validateUser() {
 
   //reset messages for success and error
   [usernameError, emailError, passwordError].forEach(
-    (e) => (e.style.display = "none")
+    (e) => (e.style.display = "none"),
   );
 
   [usernameSuccess, emailSuccess, passwordSuccess].forEach(
-    (e) => (e.style.display = "none")
+    (e) => (e.style.display = "none"),
   );
 
   //validate Username
@@ -192,7 +192,7 @@ function validateForm() {
     showError(
       description,
       descriptionError,
-      "Description must be at least 50 characters!"
+      "Description must be at least 50 characters!",
     );
     isValid = false;
   } else {
@@ -214,7 +214,6 @@ function validateForm() {
   } else {
     showSuccess(country, countrySuccess, "Valid Country!");
   }
-
 
   // Validate Price
   if (
