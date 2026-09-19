@@ -597,3 +597,33 @@ footer {
   border-color: #9ca3af;
   color: #111827;
 }
+
+
+/*   8. REVIEWS SECTION   */
+.create-review {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+}
+
+.review-heading {
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: #222222;
+  margin-bottom: 1.2rem;
+}
+
+.reviews-form {
+  background: #fafafa;
+  border: 1px solid #ebebeb;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.show-reviews {
+  color: #484848;
+  font-size: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #ebebeb;
+  
+}

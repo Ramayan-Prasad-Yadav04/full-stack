@@ -14,6 +14,8 @@ const { listingSchema } = require("./schema");
 const PORT = process.env.PORT || 3000;
 const DB_URL = process.env.MONGO_URL || "mongodb://127.0.0.1:27017/wanderlust";
 
+const Review = require("./models/reviews");
+
 // EJS & View Engine Setup
 app.engine("ejs", ejsMate);
 app.set("views", path.join(__dirname, "views"));
@@ -88,7 +90,7 @@ app.get(
   "/listings/:id",
   wrapAsync(async (req, res) => {
     const { id } = req.params;
-    const listing = await Listing.findById(id);
+    const listing = await Listing.findById(id).populate("reviews");
     if (!listing) {
       throw new ExpressError(404, "Listing not found");
     }
@@ -140,6 +142,31 @@ app.delete(
     res.redirect("/listings");
   })
 );
+
+// Reviews
+app.post("/listings/:id/reviews", wrapAsync(async (req, res) => {
+  // 1. Await the listing lookup using req.params.id
+  const listing = await Listing.findById(req.params.id);
+  if (!listing) {
+    throw new ExpressError(404, "Listing not found");
+  }
+
+  // 2. Create the new review using req.body.review (from the form)
+  const newReview = new Review(req.body.review);
+  
+  // 3. Push the new review's ID into the listing's reviews array
+  listing.reviews.push(newReview._id);
+
+  // 4. Save both documents to the database
+  let revRes = await newReview.save();
+  let lisRes = await listing.save();
+
+  console.log("Saved Review:", revRes);
+  console.log("Updated Listing:", lisRes);
+
+  // 5. Redirect back to the listing show page so you see the result
+  res.redirect(`/listings/${listing._id}`);
+}));
 
 // 404 Catch-All Middleware (Express 5 safe)
 app.use((req, res, next) => {

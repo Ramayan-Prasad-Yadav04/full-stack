@@ -1,6 +1,5 @@
 <% layout("./boilerplate/boilerplate.ejs") %>
 
-
 <div class="show-container">
   <h2><%= listing.title %></h2>
 
@@ -27,5 +26,54 @@
     <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
       <button type="submit" class="btn btn-delete">Delete</button>
     </form>
+  </div>
+  <hr />
+  <div class="create-review">
+    <h1 class="review-heading">Create a Review</h1>
+    <div class="reviews-form">
+      <form action="/listings/<%= listing._id %>/reviews" method="post">
+        <div class="form-group mb-3">
+          <label for="reviewcomment"
+            >Rating: <span id="range-value">3</span> / 5</label
+          >
+          <input
+            type="range"
+            name="review[rating]"
+            id="reviewcomment"
+            min="1"
+            max="5"
+            step="1"
+            value="3"
+            class="form-range"
+            oninput="
+              document.getElementById('range-value').innerText = this.value
+            "
+          />
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="reviewRating">commment:</label>
+          <textarea
+            name="review[comment]"
+            placeholder="Write your review here..."
+            id="reviewcomment"
+            cols="30"
+            rows="4"
+            class="form-control"
+          ></textarea>
+        </div>
+
+        <input type="submit" value="Submit Review" class="btn btn-primary" />
+      </form>
+    </div>
+
+    <div class="show-reviews">
+      <h2>Reviews</h2>
+     <div>
+      <% for( let review of listing.reviews ) { %>
+      <p><%= review.comment %> , <%= review.rating %></p>
+      <% } %>
+     </div>
+    </div>
   </div>
 </div>
