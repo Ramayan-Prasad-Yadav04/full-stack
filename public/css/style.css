@@ -627,3 +627,39 @@ footer {
   border-top: 1px solid #ebebeb;
   
 }
+
+/* styleing Reviews Crads */
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  padding: 16px;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.card-user {
+  font-weight: 600;
+  color: #222222;
+}
+
+.card-rating {
+  color: #fe424d;
+  font-weight: 500;
+}
+
+.card-comment {
+  color: #484848;
+  font-size: 0.95rem;
+}

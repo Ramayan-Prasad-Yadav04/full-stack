@@ -111,6 +111,22 @@ app.get(
   })
 );
 
+// Delete Review Route
+app.delete(
+  "/listings/:id/reviews/:reviewId",
+  wrapAsync(async (req, res) => {
+    const { id, reviewId } = req.params;
+    
+    // Remove the review reference from the listing's reviews array
+    await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+    
+    // Delete the actual review document
+    await Review.findByIdAndDelete(reviewId);
+
+    res.redirect(`/listings/${id}`);
+  })
+);
+
 // Update Route
 app.put(
   "/listings/:id",
