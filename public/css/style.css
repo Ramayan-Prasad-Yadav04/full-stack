@@ -151,7 +151,7 @@ nav a:hover {
 
 .listing-card {
   background: #ffffff;
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -662,4 +662,114 @@ footer {
 .card-comment {
   color: #484848;
   font-size: 0.95rem;
+}
+
+/* =========================================
+   9. FLASH ALERTS
+   ========================================= */
+
+/* Card Container */
+.flash-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  max-width: 440px;
+  margin: 18px auto;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 
+              0 8px 10px -6px rgba(0, 0, 0, 0.03);
+  animation: slideDownFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Typography & Layout */
+.flash-content {
+  flex: 1;
+}
+
+.flash-title {
+  margin: 0 0 2px 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.flash-message {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  font-weight: 500;
+}
+
+/* Icon Sizing */
+.flash-icon {
+  display: flex;
+  align-items: center;
+  margin-top: 1px;
+}
+
+.flash-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Close Button */
+.flash-close {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 4px;
+  opacity: 0.55;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.flash-close:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* Color Variants */
+.flash-success {
+  background-color: #f0fdf4;
+  border-color: #bbf7d0;
+  color: #166534;
+}
+
+.flash-success .flash-icon svg {
+  stroke: #16a34a;
+}
+
+.flash-success .flash-close {
+  color: #166534;
+}
+
+.flash-error {
+  background-color: #fef2f2;
+  border-color: #fecaca;
+  color: #991b1b;
+}
+
+.flash-error .flash-icon svg {
+  stroke: #dc2626;
+}
+
+.flash-error .flash-close {
+  color: #991b1b;
+}
+
+/* Entry Animation */
+@keyframes slideDownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }

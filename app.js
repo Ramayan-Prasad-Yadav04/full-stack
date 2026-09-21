@@ -5,7 +5,18 @@ const ejsMate = require("ejs-mate");
 const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require("method-override");
-
+const session = require('express-session');
+const flash = require('connect-flash');
+const sessionOption ={
+  secret: "MysuperSecret" ,
+  resave : false,
+ saveUninitialized: true,
+ cookie: {
+    httpOnly: true,
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7, // 1 week
+    maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+  }
+}
 const ExpressError = require("./utiles/ExpressError");
 const { listingSchema } = require("./schema");
 
@@ -30,6 +41,15 @@ app.use(express.static(path.join(__dirname, "public")));
 async function main() {
   await mongoose.connect(DB_URL);
 }
+
+app.use(session(sessionOption));
+app.use(flash());
+
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  next();
+});
 
 main()
   .then(() => {
